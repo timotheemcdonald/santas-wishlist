@@ -1,11 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { addItem, deleteItem } from './redux/actions';
+
+import styled from 'styled-components';
 
 const blankWish = {
     wishItem: '',
 }
 
+const WishItem = styled.div`
+
+margin: 10px;
+padding: 10px;
+border: 3px solid black;
+
+`
 
 
 const App = (props) => {
@@ -17,8 +26,6 @@ const App = (props) => {
             ...newWish,
             [event.target.name]: event.target.value
         })
-        console.log(newWish, 'newWish')
-        console.log(props, 'props')
 
     }
 
@@ -26,7 +33,6 @@ const App = (props) => {
         event.preventDefault()
         props.addItem(newWish)
     }
-
 
     const onSubmit = (event) => {
         event.preventDefault()
@@ -38,16 +44,21 @@ const App = (props) => {
             <h1>My Wishlist</h1>
 
             <div>
-                {props.wishList.map((item) => {
-            return <div key={item.id}>
-                        <div onClick={() => props.deleteItem(item)}>{item.wishItem}</div>
+                {props.wishList.map((item, index) => {
+            return <div key={index}>
+                        <WishItem onClick={() => props.deleteItem(item)}>{item.wishItem}</WishItem>
                     </div>
                 })}
             </div>
 
             <div>
                 <form onSubmit={onAdd}>
-                    <input type="text" name="wishItem" value={newWish.wishItem} onChange={onChange} />
+                    <input 
+                    type="text" 
+                    name="wishItem" 
+                    value={newWish.wishItem} 
+                    onChange={onChange} 
+                    />
                     <button type="submit">Add</button>
                 </form>
 
